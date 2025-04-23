@@ -9,13 +9,12 @@ namespace ContaCorrente.ConsoleApp
             CriarConta conta1 = new CriarConta();
  
             Operacoes.Depositar(conta1, -300);
-            Console.WriteLine($"Conta Corrente: {conta1.numeroConta}\nSaldo: {conta1.saldo}\nLimite de Débito: {conta1.limiteDebito}");
-            Console.WriteLine("------------------------------------------------------------");
+            Operacoes.ConsultarSaldo(conta1);
 
             CriarConta conta2=new CriarConta();
             Operacoes.Depositar(conta2, 500);
             Operacoes.Sacar(conta2, 1000);
-            Console.WriteLine($"Conta Corrente: {conta2.numeroConta}\nSaldo: {conta2.saldo}\nLimite de Débito: {conta2.limiteDebito}");
+            Operacoes.ConsultarSaldo(conta2);
             Console.ReadLine();
         }
     }
@@ -46,6 +45,12 @@ namespace ContaCorrente.ConsoleApp
                 return;
             } 
             conta.saldo -= valor;
+        }
+
+        public static void ConsultarSaldo(CriarConta conta)
+        {
+            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\nSaldo: {conta.saldo}\nLimite de Débito: {conta.limiteDebito}");
+            Console.WriteLine("------------------------------------------------------------");
         }
     }
 }
