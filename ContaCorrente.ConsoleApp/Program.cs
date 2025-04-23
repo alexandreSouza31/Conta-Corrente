@@ -13,7 +13,7 @@ namespace ContaCorrente.ConsoleApp
             Operacoes.Depositar(conta1, 100);
             Operacoes.ConsultarSaldo(conta1);
             Operacoes.Transferir(conta1, conta2, 50);
-            Operacoes.Sacar(conta1, 20);
+            Operacoes.Sacar(conta1, 200);
             Operacoes.EmitirExtrato(conta1);
 
             Operacoes.Depositar(conta2, 500);
@@ -57,7 +57,7 @@ namespace ContaCorrente.ConsoleApp
         public static string Sacar(CriarConta conta, double valor)
         {
             string mensagem;
-            if (valor > conta.limiteDebito)
+            if (valor > conta.saldo || valor < conta.limiteDebito)
             {
                 mensagem = $"Saldo insufuciente para saque![R${valor}]";
                 Console.WriteLine(mensagem);
