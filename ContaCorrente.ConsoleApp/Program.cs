@@ -105,7 +105,7 @@ namespace ContaCorrente.ConsoleApp
         {
             string mensagemTransferenciaRealizada;
             string mensagemTransferenciaRecebida;
-            if(contaDebitada.saldo <= 0 || contaDebitada.saldo < valor)
+            if(contaDebitada.saldo <= 0 || contaDebitada.saldo < valor || valor <= 0)
             {
                 Console.WriteLine($"Sem fundos suficientes para transferência![R${valor}]");
                 return;
