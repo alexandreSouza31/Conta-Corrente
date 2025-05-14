@@ -4,9 +4,24 @@
     {
         static int numeroId = 1000;
         public int numeroConta = numeroId++;
-        public double saldo = 0;
+        private double saldo = 0;
         public int limiteDebito = 0;
         public string[] extrato = new string[10];
         public int contadorExtrato = 0;
+
+        public double GetSaldo()
+        {
+            return saldo;
+        }
+
+        public void AdicionarSaldo(double valor)
+        {
+            saldo += valor;
+        }
+
+        public void SubtrairSaldo(double valor)
+        {
+            saldo -= valor;
+        }
     }
 }

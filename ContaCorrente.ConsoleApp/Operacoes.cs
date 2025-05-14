@@ -13,7 +13,7 @@
                 conta.contadorExtrato++;
                 return mensagem;
             }
-            conta.saldo += valor;
+            conta.AdicionarSaldo(valor);
             mensagem = $"Depósito de R${valor} realizado!";
             Console.WriteLine(mensagem);
             conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
@@ -24,7 +24,7 @@
         public static string Sacar(CriarConta conta, double valor)
         {
             string mensagem;
-            if (valor > conta.saldo || valor < conta.limiteDebito)
+            if (valor > conta.GetSaldo() || valor < conta.limiteDebito)
             {
                 mensagem = $"Saldo insufuciente para saque![R${valor}]";
                 Console.WriteLine(mensagem);
@@ -32,7 +32,7 @@
                 conta.contadorExtrato++;
                 return mensagem;
             }
-            conta.saldo -= valor;
+            conta.SubtrairSaldo(valor);
             mensagem = $"Saque de R$ {valor} realizado!";
             Console.WriteLine(mensagem);
             conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
@@ -43,14 +43,14 @@
         public static void ConsultarSaldo(CriarConta conta)
         {
             Console.WriteLine("\n--------------- Saldo da conta ---------------".ToUpper());
-            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\tSaldo: {conta.saldo}\tLimite de Débito: {conta.limiteDebito}");
+            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\tSaldo: {conta.GetSaldo()}\tLimite de Débito: {conta.limiteDebito}");
             Console.WriteLine("--------------- Fim do Saldo da conta ---------------\n".ToUpper());
         }
 
         public static void EmitirExtrato(CriarConta conta)
         {
             Console.WriteLine("\n--------------- Extrato da conta ---------------".ToUpper());
-            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\t Saldo: {conta.saldo}");
+            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\t Saldo: {conta.GetSaldo()}");
 
             if (conta.contadorExtrato == 0)
             {
@@ -72,7 +72,7 @@
         {
             string mensagemTransferenciaRealizada;
             string mensagemTransferenciaRecebida;
-            if (contaDebitada.saldo <= 0 || contaDebitada.saldo < valor || valor <= 0)
+            if (contaDebitada.GetSaldo() <= 0 || contaDebitada.GetSaldo() < valor || valor <= 0)
             {
                 Console.WriteLine($"Sem fundos suficientes para transferência![R${valor}]");
                 return;
@@ -84,8 +84,8 @@
                 return;
             }
 
-            contaDebitada.saldo -= valor;
-            contaCreditada.saldo += valor;
+            contaDebitada.SubtrairSaldo(valor);
+            contaCreditada.AdicionarSaldo(valor);
             mensagemTransferenciaRealizada = $"Transferência realizada para a conta {contaCreditada.numeroConta}! R${valor}";
             mensagemTransferenciaRecebida = $"Transferência recebida da conta {contaDebitada.numeroConta}! R${valor}";
 
