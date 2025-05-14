@@ -1,6 +1,6 @@
 ﻿namespace ContaCorrente.ConsoleApp
 {
-    public class CriarConta()
+    public class CriarConta
     {
         static int numeroId = 1000;
         public int numeroConta = numeroId++;
@@ -8,6 +8,13 @@
         public int limiteDebito = 0;
         public string[] extrato = new string[10];
         public int contadorExtrato = 0;
+
+        public Operacoes Operacoes;
+
+        public CriarConta()
+        {
+            Operacoes = new Operacoes(this);
+        }
 
         public double GetSaldo()
         {

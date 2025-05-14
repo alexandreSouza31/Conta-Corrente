@@ -6,20 +6,20 @@ namespace ContaCorrente.ConsoleApp
     {
         static void Main(string[] args)
         {
-            CriarConta conta1 = new CriarConta();
-            CriarConta conta2=new CriarConta();
- 
-            Operacoes.Depositar(conta1, -300);
-            Operacoes.Depositar(conta1, 100);
-            Operacoes.ConsultarSaldo(conta1);
-            Operacoes.Transferir(conta1, conta2, 50);
-            Operacoes.Sacar(conta1, 200);
-            Operacoes.EmitirExtrato(conta1);
+            var conta1 = new CriarConta();
+            var conta2 = new CriarConta();
 
-            Operacoes.Depositar(conta2, 500);
-            Operacoes.Sacar(conta2, 1000);
-            Operacoes.ConsultarSaldo(conta2);
-            Operacoes.EmitirExtrato(conta2);
+            conta1.Operacoes.Depositar(-300);
+            conta1.Operacoes.Depositar(100);
+            conta1.Operacoes.ConsultarSaldo();
+            conta1.Operacoes.Transferir(conta2, 50);
+            conta1.Operacoes.Sacar(200);
+            conta1.Operacoes.EmitirExtrato();
+
+            conta2.Operacoes.Depositar(500);
+            conta2.Operacoes.Sacar(1000);
+            conta2.Operacoes.ConsultarSaldo();
+            conta2.Operacoes.EmitirExtrato();
             Console.ReadLine();
         }
     }

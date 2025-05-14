@@ -1,8 +1,15 @@
 ﻿namespace ContaCorrente.ConsoleApp
 {
-    public static class Operacoes
+    public class Operacoes
     {
-        public static string Depositar(CriarConta conta, double valor)
+        private CriarConta conta;
+
+        public Operacoes(CriarConta conta)
+        {
+            this.conta = conta;
+        }
+
+        public string Depositar( double valor)
         {
             string mensagem;
             if (valor < conta.limiteDebito)
@@ -21,7 +28,7 @@
             return mensagem;
 
         }
-        public static string Sacar(CriarConta conta, double valor)
+        public string Sacar(double valor)
         {
             string mensagem;
             if (valor > conta.GetSaldo() || valor < conta.limiteDebito)
@@ -40,14 +47,14 @@
             return mensagem;
         }
 
-        public static void ConsultarSaldo(CriarConta conta)
+        public void ConsultarSaldo()
         {
             Console.WriteLine("\n--------------- Saldo da conta ---------------".ToUpper());
             Console.WriteLine($"Conta Corrente: {conta.numeroConta}\tSaldo: {conta.GetSaldo()}\tLimite de Débito: {conta.limiteDebito}");
             Console.WriteLine("--------------- Fim do Saldo da conta ---------------\n".ToUpper());
         }
 
-        public static void EmitirExtrato(CriarConta conta)
+        public void EmitirExtrato()
         {
             Console.WriteLine("\n--------------- Extrato da conta ---------------".ToUpper());
             Console.WriteLine($"Conta Corrente: {conta.numeroConta}\t Saldo: {conta.GetSaldo()}");
@@ -68,8 +75,9 @@
             Console.WriteLine("--------------- Fim do Extrato da conta ---------------\n".ToUpper());
         }
 
-        public static void Transferir(CriarConta contaDebitada, CriarConta contaCreditada, int valor)
+        public void Transferir(CriarConta contaCreditada, int valor)
         {
+            var contaDebitada = conta;
             string mensagemTransferenciaRealizada;
             string mensagemTransferenciaRecebida;
             if (contaDebitada.GetSaldo() <= 0 || contaDebitada.GetSaldo() < valor || valor <= 0)
