@@ -14,36 +14,38 @@
             string mensagem;
             if (valor < conta.limiteDebito)
             {
-                mensagem = $"Valor insufuciente para depósito![R${valor}]";
+                mensagem = $"Depósito inválido!";
+                conta.RegistrarMovimentacao($"{mensagem}", valor);
+                conta.contadorMovimentacoes++;
+                mensagem += $"[{valor}]";
                 Console.WriteLine(mensagem);
-                conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
-                conta.contadorExtrato++;
                 return mensagem;
             }
             conta.AdicionarSaldo(valor);
-            mensagem = $"Depósito de R${valor} realizado!";
+            mensagem = $"Depósito realizado!";
+            conta.RegistrarMovimentacao($"{mensagem}", valor);
+            mensagem += $"[{valor}]";
             Console.WriteLine(mensagem);
-            conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
-            conta.contadorExtrato++;
             return mensagem;
-
         }
         public string Sacar(double valor)
         {
             string mensagem;
             if (valor > conta.GetSaldo() || valor < conta.limiteDebito)
             {
-                mensagem = $"Saldo insufuciente para saque![R${valor}]";
+                mensagem = $"Saque inválido!";
+                conta.RegistrarMovimentacao($"{mensagem}", valor);
+                mensagem += $"[{valor}]";
                 Console.WriteLine(mensagem);
-                conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
-                conta.contadorExtrato++;
+                conta.contadorMovimentacoes++;
                 return mensagem;
             }
             conta.SubtrairSaldo(valor);
-            mensagem = $"Saque de R$ {valor} realizado!";
+            mensagem = $"Saque realizado!";
+            conta.RegistrarMovimentacao($"{mensagem}", valor);
+            mensagem += $"[{valor}]";
             Console.WriteLine(mensagem);
-            conta.extrato[conta.contadorExtrato] += Convert.ToString(mensagem);
-            conta.contadorExtrato++;
+            conta.contadorMovimentacoes++;
             return mensagem;
         }
 
@@ -59,50 +61,54 @@
             Console.WriteLine("\n--------------- Extrato da conta ---------------".ToUpper());
             Console.WriteLine($"Conta Corrente: {conta.numeroConta}\t Saldo: {conta.GetSaldo()}");
 
-            if (conta.contadorExtrato == 0)
+            if (conta.contadorMovimentacoes == 0)
             {
                 Console.WriteLine("Sem movimentações na conta ainda!");
                 return;
             }
 
-            for (int i = 0; i < conta.contadorExtrato; i++)
+            for (int i = 0; i < conta.contadorMovimentacoes; i++)
             {
-                if (!string.IsNullOrEmpty(conta.extrato[i]))
+                if (conta.movimentacoes[i] != null)
                 {
-                    Console.WriteLine($" - {conta.extrato[i]}");
+                    Console.WriteLine($" - {conta.movimentacoes[i].LerMovimentacao()}");
                 }
             }
             Console.WriteLine("--------------- Fim do Extrato da conta ---------------\n".ToUpper());
         }
 
-        public void Transferir(CriarConta contaCreditada, int valor)
+        public string Transferir(CriarConta contaDestino, double valor)
         {
             var contaDebitada = conta;
-            string mensagemTransferenciaRealizada;
-            string mensagemTransferenciaRecebida;
+            var contaCreditada = contaDestino;
+
             if (contaDebitada.GetSaldo() <= 0 || contaDebitada.GetSaldo() < valor || valor <= 0)
             {
-                Console.WriteLine($"Sem fundos suficientes para transferência![R${valor}]");
-                return;
+                string mensagem = $"Transferência inválida!";
+                conta.RegistrarMovimentacao(mensagem, valor);
+                mensagem += $"[{valor}]";
+                Console.WriteLine(mensagem);
+                return mensagem;
             }
 
             if (contaDebitada.numeroConta == contaCreditada.numeroConta)
             {
-                Console.WriteLine("Transferência para a própria conta não é permitida!");
-                return;
+                return "Transferência para a própria conta não é permitida!";
             }
 
             contaDebitada.SubtrairSaldo(valor);
             contaCreditada.AdicionarSaldo(valor);
-            mensagemTransferenciaRealizada = $"Transferência realizada para a conta {contaCreditada.numeroConta}! R${valor}";
-            mensagemTransferenciaRecebida = $"Transferência recebida da conta {contaDebitada.numeroConta}! R${valor}";
 
-            contaDebitada.extrato[contaDebitada.contadorExtrato] += Convert.ToString(mensagemTransferenciaRealizada);
-            contaDebitada.contadorExtrato++;
+            string mensagemTransferenciaRealizada = $"Transferência realizada para a conta {contaCreditada.numeroConta}!";
+            string mensagemTransferenciaRecebida = $"Transferência recebida da conta {contaDebitada.numeroConta}!";
 
-            contaCreditada.extrato[contaCreditada.contadorExtrato] += Convert.ToString(mensagemTransferenciaRecebida);
-            contaCreditada.contadorExtrato++;
+            contaDebitada.RegistrarMovimentacao(mensagemTransferenciaRealizada, valor);
+            contaCreditada.RegistrarMovimentacao(mensagemTransferenciaRecebida, valor);
+
+            mensagemTransferenciaRealizada += $"[{valor}]";
             Console.WriteLine(mensagemTransferenciaRealizada);
+            return mensagemTransferenciaRealizada;
         }
+
     }
 }
