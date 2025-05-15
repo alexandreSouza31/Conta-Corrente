@@ -3,18 +3,20 @@
     public class CriarConta
     {
         static int numeroId = 1000;
-        public int numeroConta = numeroId++;
+        public int numeroConta;
         private double saldo = 0;
         private int limite;
         private Movimentacao[] movimentacoes;
-        public int contadorMovimentacoes = 0;
+        public int contadorMovimentacoes;
 
         public Operacoes Operacoes;
 
         public CriarConta()
         {
             Operacoes = new Operacoes(this);
+            numeroConta = numeroId++;
             movimentacoes = new Movimentacao[10];
+            contadorMovimentacoes = 0;
             limite = 200;
         }
 
