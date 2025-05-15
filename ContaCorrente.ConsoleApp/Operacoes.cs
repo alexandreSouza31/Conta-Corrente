@@ -12,7 +12,7 @@
         public string Depositar( double valor)
         {
             string mensagem;
-            if (valor < conta.limiteDebito)
+            if (valor < conta.GetLimite())
             {
                 mensagem = $"Depósito inválido!";
                 conta.RegistrarMovimentacao($"{mensagem}", valor);
@@ -31,7 +31,7 @@
         public string Sacar(double valor)
         {
             string mensagem;
-            if (valor > conta.GetSaldo() || valor < conta.limiteDebito)
+            if (valor > conta.GetSaldo() || valor < conta.GetLimite())
             {
                 mensagem = $"Saque inválido!";
                 conta.RegistrarMovimentacao($"{mensagem}", valor);
@@ -52,7 +52,7 @@
         public void ConsultarSaldo()
         {
             Console.WriteLine("\n--------------- Saldo da conta ---------------".ToUpper());
-            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\tSaldo: {conta.GetSaldo()}\tLimite de Débito: {conta.limiteDebito}");
+            Console.WriteLine($"Conta Corrente: {conta.numeroConta}\tSaldo: {conta.GetSaldo()}\tLimite de Débito: {conta.GetLimite()}");
             Console.WriteLine("--------------- Fim do Saldo da conta ---------------\n".ToUpper());
         }
 

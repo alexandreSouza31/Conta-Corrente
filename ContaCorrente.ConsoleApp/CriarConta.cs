@@ -5,7 +5,7 @@
         static int numeroId = 1000;
         public int numeroConta = numeroId++;
         private double saldo = 0;
-        public int limiteDebito = 0;
+        private int limite;
         private Movimentacao[] movimentacoes;
         public int contadorMovimentacoes = 0;
 
@@ -15,6 +15,7 @@
         {
             Operacoes = new Operacoes(this);
             movimentacoes = new Movimentacao[10];
+            limite = 200;
         }
 
         public Movimentacao[] GetMovimentacoes()
@@ -48,6 +49,11 @@
                 };
                 contadorMovimentacoes++;
             }
+        }
+
+        public int GetLimite()
+        {
+            return limite;
         }
     }
 }
