@@ -67,11 +67,13 @@
                 return;
             }
 
+            var extratos= conta.GetMovimentacoes();
+
             for (int i = 0; i < conta.contadorMovimentacoes; i++)
             {
-                if (conta.movimentacoes[i] != null)
+                if (extratos[i] != null)
                 {
-                    Console.WriteLine($" - {conta.movimentacoes[i].LerMovimentacao()}");
+                    Console.WriteLine($" - {extratos[i].LerMovimentacao()}");
                 }
             }
             Console.WriteLine("--------------- Fim do Extrato da conta ---------------\n".ToUpper());
